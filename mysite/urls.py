@@ -20,9 +20,9 @@ from django.urls import path, include
 from bookmark.views import BookmarkLV, BookmarkDV
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     path('blog/', include('blog.urls')),
 
     path('bookmark/', BookmarkLV.as_view(), name='index'),
-    path('bookmark/<int:pk>/', BookmarkDV.as_view(),name='detail'),
+    path('bookmark/<int:pk>/', BookmarkDV.as_view(), name='detail'),
 ]
