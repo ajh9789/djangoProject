@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    "photo.apps.PhotoConfig",
     "blog.apps.BlogConfig",
     "bookmark.apps.BookmarkConfig",
     "django.contrib.admin",
@@ -134,5 +135,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DISQUS_SHORTNAME = 'django-phxeflslxv'
-DISQUS_MY_DOMAIN = 'https://127.0.0.1:8000'
+DISQUS_MY_DOMAIN = 'https://127.0.0.1:9000'
 

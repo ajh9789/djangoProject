@@ -8,6 +8,9 @@
     <title>{% block title %}Django Web Programming{% endblock title %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
     {% block extra-style %}{% endblock %}
 </head>
 <body style="padding-top: 90px">
@@ -19,24 +22,27 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a href="#" class="nav-link">
+            <li class="nav-item">
+                <a href="{% url 'home' %}" class="nav-link">
                     Home <span class="sr-only">current</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">Link</a>
+                <a href="{% url 'index' %}" class="nav-link">Bookmark</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'blog:index' %}" class="nav-link">Blog</a>
             </li>
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                    data-toggle="dropdown">
-                    Dropdown
+                    Util
                 </a>
                 <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item">Action</a>
-                    <a href="#" class="dropdown-item">Another Action</a>
+                    <a href="{% url 'admin:index' %}" class="dropdown-item" target="_blank">Admin</a>
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">Something else here</a>
+                    <a href="{% url 'blog:post_archive' %}" class="dropdown-item">Archive</a>
+                    <a href="{% url 'blog:search' %}" class="dropdown-item">Search</a>
                 </div>
             </li>
             <li class="nav-item">
@@ -69,6 +75,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/ee1c3da296.js"></script>
 {% block extra-script %}{% endblock extra-script %}
 </body>
 </html>
