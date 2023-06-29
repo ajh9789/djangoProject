@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "taggit.apps.TaggitAppConfig",
-    "taggit_templatetags2"
+    "taggit_templatetags2",
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [
@@ -135,5 +136,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DISQUS_SHORTNAME = 'django-phxeflslxv'
-DISQUS_MY_DOMAIN = 'https://127.0.0.1:9000'
+DISQUS_MY_DOMAIN = 'https://127.0.0.1:8000'
 
+LOGIN_REDIRECT_URL = '/'
