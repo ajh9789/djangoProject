@@ -34,4 +34,5 @@ urlpatterns = [
 
     path('bookmark/', BookmarkLV.as_view(), name='index'),
     path('bookmark/<int:pk>/', BookmarkDV.as_view(), name='detail'),
+    path('bookmark/', include('bookmark.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
