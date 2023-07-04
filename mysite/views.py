@@ -1,10 +1,13 @@
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import AccessMixin
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView
-from django.contrib.auth.mixins import AccessMixin
+
 
 class HomeView(TemplateView):
     template_name = 'home.html'
+
+
 class UserCreateView(CreateView):
     template_name = 'registration/register.html'
     form_class = UserCreationForm
@@ -14,5 +17,13 @@ class UserCreateView(CreateView):
 class UserCreateDoneTV(TemplateView):
     template_name = 'registration/register_done.html'
 
+
 class OwnerOnlyMixin(AccessMixin):
-    pass
+    raise_exception = True
+    permission_denied_message = 'Owner only can update/delete the object'
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if request.user != obj.owner:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)

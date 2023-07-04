@@ -1,16 +1,15 @@
+from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render
-from django.conf import settings
-from django.views.generic import ListView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView, \
-    DayArchiveView, TodayArchiveView, TemplateView, FormView
-
-from blog.forms import PostSearchForm
-from blog.models import Post
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView, \
     DayArchiveView, TodayArchiveView, TemplateView, FormView, CreateView, UpdateView, DeleteView
 
+from blog.forms import PostSearchForm
+from blog.models import Post
 from mysite.views import OwnerOnlyMixin
+
 
 # Create your views here.
 class PostLV(ListView):
@@ -30,6 +29,7 @@ class PostDV(DetailView):
         context['disqus_url'] = f"{settings.DISQUS_MY_DOMAIN}{self.object.get_absolute_url()}"
         context['disqus_title'] = f"{self.object.slug}"
         return context
+
 
 class PostAV(ArchiveIndexView):
     model = Post
@@ -60,6 +60,7 @@ class PostTAV(TodayArchiveView):
     date_field = 'modify_dt'
     template_name = 'blog/post_archive_day.html'
 
+
 class TagCloudTV(TemplateView):
     template_name = 'taggit/taggit_cloud.html'
 
@@ -75,6 +76,7 @@ class TaggedObjectLV(ListView):
         context = super().get_context_data(**kwargs)
         context['tagname'] = self.kwargs['tag']
         return context
+
 
 class SearchFormView(FormView):
     form_class = PostSearchForm
@@ -92,14 +94,31 @@ class SearchFormView(FormView):
 
         return render(self.request, self.template_name, context)
 
-    class PostCreateView(LoginRequiredMixin, CreateView):
-        pass
 
-    class PostChangeLV(LoginRequiredMixin, ListView):
-        pass
 
-    class PostUpdateView(OwnerOnlyMixin, UpdateView):
-        pass
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'slug', 'description', 'content', 'tags']
+    initial = {'slug': 'auto-filling-do-not-input'}
+    success_url = reverse_lazy('blog:index')
 
-    class PostDeleteView(OwnerOnlyMixin, DeleteView):
-        pass
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+class PostChangeLV(LoginRequiredMixin, ListView):
+    template_name = 'blog/post_change_list.html'
+
+    def get_queryset(self):
+        return Post.objects.filter(owner=self.request.user)
+
+
+class PostUpdateView(OwnerOnlyMixin, UpdateView):
+    model = Post
+    fields = ['title', 'slug', 'description', 'content', 'tags']
+    success_url = reverse_lazy('blog:index')
+
+
+class PostDeleteView(OwnerOnlyMixin, DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:index')

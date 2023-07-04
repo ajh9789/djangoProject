@@ -11,8 +11,4 @@ urlpatterns = [
     path('change/', views.BookmarkChangeLV.as_view(), name='change'),
     path('<int:pk>/update/', views.BookmarkUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', views.BookmarkDeleteView.as_view(), name='delete'),
-    path('add/', views.PostCreateView.as_view(), name='add'),
-    path('change/', views.PostChangeLV.as_view(), name='change'),
-    path('<int:pk>/update/', views.PostUpdateView.as_view(), name='update'),
-    path('<int:pk>/delete/', views.PostDeleteView.as_view(), name='delete'),
 ]
